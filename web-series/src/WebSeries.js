@@ -4,41 +4,158 @@ import { LitElement, html, css } from 'lit';
 import { WebSeriesCard } from './web-series-card.js';
 
 customElements.define('web-series-card', WebSeriesCard);
+
 export class WebSeries extends LitElement {
+  firstUpdated() {
+    const obj = {
+      title: 'hi',
+      stars: 'bi',
+      director: 'mama',
+      streamingPlatform: 'hehe',
+    };
+    const shadow = this.shadowRoot;
+    const webseriesOverview = shadow.querySelector('web-series-overview');
+    webseriesOverview.data = obj;
+    /* this.addEventListener('myEvent', e => {
+      const value = e.detail;
+      const shadow = this.shadowRoot;
+      const webseriesOverview = shadow.querySelector('web-series-overview');
+      webseriesOverview.data = value;
+    }); */
+  }
+
   static get properties() {
     return {
       title: { type: String },
+      stars: { type: String },
+      director: { type: String },
+      streamingPlatform: { type: String },
     };
   }
 
-  constructor() {
+  /* constructor() {
     super();
-    this.title = 'My app';
+    this.title = 'hello';
+    this.director = 'my';
+    this.stars = 'kep';
+    this.streamingPlatform = 'viu';
+    this.addEventListener('form-submit', this.formsubmit);
+this.addEventListener('form-submit', this.formsubmit);
+    this.attachShadow({ mode: 'open' });
+  } */
+
+  // constructor() {
+  //   super();
+  // }
+  // const webseriesform = document.querySelector('web-series-form');
+  // const clone = document.importNode(webseriesform.Content, true);
+  // this.attachShadow({ mode: 'open' });
+  // this.shadowRoot.appendChild(webseriesform);
+
+  // const webseriesoverview = document.querySelector('web-series-overview');
+  // const clone2 = document.importNode(webseriesoverview.Content, true);
+  // this.attachShadow({ mode: 'open' });
+  // this.shadowRoot.appendChild(webseriesoverview);
+
+  static get styles() {
+    return css`
+      :host {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.6rem;
+        display: flex;
+        flex-wrap: nowrap;
+      }
+      @media (max-width: 800px) {
+        :host {
+          display: grid;
+          grid-template-columns: 1fr;
+          box-sizing: border-box;
+          gap: 1rem;
+        }
+      }
+    `;
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    const webseriesform = document.querySelector('web-series-form');
-    const clone = document.importNode(webseriesform.Content, true);
-    this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(clone);
-
-    const webseriesoverview = document.querySelector('web-series-overview');
-    const clone2 = document.importNode(webseriesoverview.Content, true);
-    this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(clone2);
+  render() {
+    return html`
+      <web-series-form></web-series-form>;
+      <web-series-overview></web-series-overview>
+    `;
   }
 }
+// customElements.define('web-series', WebSeries);
 
 class webSeriesForm extends LitElement {
-  constructor(title, director, stars, streamingPlatform) {
+  submit() {
+    const myEvent = new CustomEvent('form-submit', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        title: this.shadowRoot.getElementById('title').value,
+        director: this.shadowRoot.getElementById('director').value,
+        stars: this.shadowRoot.getElementById('stars').value,
+        streamingPlatform:
+          this.shadowRoot.getElementById('streamingPlatform').value,
+      },
+    });
+    this.dispatchEvent(myEvent);
+    /* this.count = 0;
+    const shadow = this.shadowRoot;
+    const form = shadow.querySelector('form');
+    form.onclick = e => {
+      this.count += 1;
+       const obj = {
+        title: this.shadowRoot.getElementById('title').value,
+        director: this.shadowRoot.getElementById('director').value,
+        stars: this.shadowRoot.getElementById('stars').value,
+        streamingPlatform:
+          this.shadowRoot.getElementById('streamingPlatform').value,
+      }; 
+
+      this.dispatchEvent(
+        new CustomEvent('clicked', {
+          bubbles: true,
+          composed: true,
+          detail: this.count,
+        })
+      );
+    }; */
+  }
+
+  // let count = 0;
+  // const form1 = document.querySelector('form');
+  /* constructor(title, director, stars, streamingPlatform) {
     super();
     this.title = title;
     this.director = director;
     this.stars = stars;
     this.streamingPlatform = streamingPlatform;
+  } */
+  /* constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.formsubmit = this.formsubmit.bind(this);
+    this.title = '';
+    this.director = '';
+    this.stars = '';
+    this.streamingPlatform = '';
+    this.dispatchEvent(
+      new CustomEvent('form-submit', {
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
-
+*/
+  /* static get properties() {
+    return {
+      title: { type: String },
+      stars: { type: String },
+      director: { type: String },
+      streamingPlatform: { type: String },
+    };
+  }
+*/
   static get styles() {
     return css`
       :host {
@@ -86,65 +203,112 @@ class webSeriesForm extends LitElement {
 
   render() {
     return html`
-      <div class="container1">
-        <form name="Myform" id="Web-series-form">
-          <h4>
-            TITLE:
-            <input
-              id="title"
-              type="text"
-              name="name"
-              value=""
-              placeholder="Title Name"
-            />
-          </h4>
-          <h4>
-            DIRECTOR:
-            <input
-              id="director"
-              type="text"
-              name="name"
-              value=""
-              placeholder="Directors Name"
-            />
-          </h4>
-          <h4>
-            STARS:
-            <input
-              id="stars"
-              type="text"
-              name="name"
-              value=""
-              placeholder="Stars Name"
-            />
-          </h4>
-          <h4>
-            STREAMING PLATFORM:
-            <select id="streamingPlatform" name="streamingPlatformDropdown">
-              <option value="none">none</option>
-              <option value="Netflix">Netflix</option>
-              <option value="Prime">Prime</option>
-              <option value="Viki">Viki</option>
-              <option value="Hotstar">Hotstar</option>
-            </select>
-          </h4>
-          <h4 class="submit">
-            <button type="submit" id="name" value="ADD">ADD</button>
-          </h4>
-        </form>
-      </div>
+      <form
+        @submit=${this.submit}
+        name="Myform"
+        id="Web-series-form"
+        class="container1"
+      >
+        <h4>
+          TITLE:
+          <input
+            id="title"
+            type="text"
+            name="name"
+            value=""
+            placeholder="Title Name"
+          />
+        </h4>
+        <h4>
+          DIRECTOR:
+          <input
+            id="director"
+            type="text"
+            name="name"
+            value=""
+            placeholder="Directors Name"
+          />
+        </h4>
+        <h4>
+          STARS:
+          <input
+            id="stars"
+            type="text"
+            name="name"
+            value=""
+            placeholder="Stars Name"
+          />
+        </h4>
+        <h4>
+          STREAMING PLATFORM:
+          <select id="streamingPlatform" name="streamingPlatformDropdown">
+            <option value="none">none</option>
+            <option value="Netflix">Netflix</option>
+            <option value="Prime">Prime</option>
+            <option value="Viki">Viki</option>
+            <option value="Hotstar">Hotstar</option>
+          </select>
+        </h4>
+        <h4 class="submit">
+          <button type="submit" id="name" value="ADD">ADD</button>
+        </h4>
+      </form>
     `;
   }
+
+  /*  formsubmit(e) {
+    // let count = 1;
+    // this.done = true;
+    e.preventDefault();
+
+    const title = this.shadowRoot.getElementById('title').value;
+    const director = this.shadowRoot.getElementById('director').value;
+    const stars = this.shadowRoot.getElementById('stars').value;
+    const streamingPlatform =
+      this.shadowRoot.getElementById('streamingPlatform').value;
+    this.title = [...this.title, { title }];
+    this.title = [...this.title, { director }];
+    this.title = [...this.title, { stars }];
+    this.title = [...this.title, { streamingPlatform }];
+  } */
+  // const values = new WebSeries(title, director, stars, streamingPlatform);
+
+  // count += 1;
+  // this.console.log((this.title = 'title'));
+  // this.console.log(title, director, stars, streamingPlatform);
+  // console.log('fd');
+  // const ui = new UI();
+  // if (count <= 6) {
+  // ui.addWebSeriesToList(value);
+  // }
+  // clear fields
+  // ui.clearFields();
 }
 
 customElements.define('web-series-form', webSeriesForm);
 
 class webSeriesOverview extends WebSeriesCard {
-  connectedCallback() {
-    const webseriescard = document.querySelector('web-series-card');
+  /* connectedCallback() {
+    super.connectedCallback();
+    const webseriescard = this.shadowRoot.querySelector(WebSeriesCard);
     // const clone3 = document.importNode(webseriescard.Content, true);
-    this.attachShadow({ mode: 'open' });
+    // this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(webseriescard);
+  } */
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+
+  // connectedCallback() {
+  // super.connectedCallback();
+  //    this.title = this.getAttribute('title');
+  //  this.director = this.getAttribute('director');
+  // }
+  static get properties() {
+    return {
+      data: { type: Object },
+    };
   }
 
   static get styles() {
@@ -186,35 +350,24 @@ class webSeriesOverview extends WebSeriesCard {
       }
     `;
   } 
-
+*/
   render() {
     return html`
-      <div>
-        <span>
-          TITLE<br />
-          director<br />
-          stars<br />
-          streaming platform<br />
-          <button>DELETE</button>
-        </span>
-      </div>
-      <div>
-        <span></span>
-      </div>
-      <div>
-        <span></span>
-      </div>
-      <div>
-        <span></span>
-      </div>
-      <div>
-        <span></span>
-      </div>
-      <div>
-        <span></span>
-      </div>
+      <web-series-card
+        id="card"
+        title=${this.data.title}
+        director=${this.data.director}
+        stars=${this.data.stars}
+        streamingPlatform=${this.data.streamingPlatform}
+      ></web-series-card>
+      <web-series-card></web-series-card>
+      <web-series-card></web-series-card>
+      <web-series-card></web-series-card>
+      <web-series-card></web-series-card>
+      <web-series-card></web-series-card>
     `;
-  } */
+  }
 }
 
 customElements.define('web-series-overview', webSeriesOverview);
+window.customElements.define('web-series', WebSeries);

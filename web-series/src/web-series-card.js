@@ -1,6 +1,23 @@
 import { html, css, LitElement } from 'lit';
 
 export class WebSeriesCard extends LitElement {
+  constructor() {
+    super();
+    this.title = 'Title';
+    this.stars = 'stars';
+    this.director = 'dir';
+    this.streamingPlatform = 'streaming';
+  }
+
+  static get properties() {
+    return {
+      title: { type: String },
+      stars: { type: String },
+      director: { type: String },
+      streamingPlatform: { type: String },
+    };
+  }
+
   static get styles() {
     return css`
       /*@media (min-width: 800px) {
@@ -43,10 +60,10 @@ export class WebSeriesCard extends LitElement {
     return html`
       <div>
         <span>
-          TITLE<br />
-          director<br />
-          stars<br />
-          streaming platform<br />
+          ${this.title}<br />
+          ${this.director}<br />
+          ${this.stars}<br />
+          ${this.streamingPlatform}<br />
           <button>DELETE</button>
         </span>
       </div>

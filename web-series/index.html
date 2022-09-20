@@ -19,11 +19,6 @@
         background-image: radial-gradient(circle, #d6eaf8, #3498db);
       }
 
-      div.container {
-        display: flex;
-        flex-wrap: nowrap;
-      }
-
       h1 {
         text-transform: uppercase;
         text-align: center;
@@ -78,20 +73,13 @@
   </head>
 
   <body>
+    <header>
+      <nav>
+        <h1>Web Series</h1>
+      </nav>
+    </header>
     <web-series>
-      <header>
-        <nav>
-          <h1>Web Series</h1>
-        </nav>
-      </header>
-
-      <div class="container">
-        <web-series-form> </web-series-form>
-
-        <web-series-overview>
-          <web-series-card> </web-series-card>
-        </web-series-overview>
-      </div>
+      <div class="container"></div>
     </web-series>
 
     <script type="module" src="./src/WebSeries.js"></script>
