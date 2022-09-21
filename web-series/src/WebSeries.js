@@ -53,7 +53,7 @@ export class WebSeries extends LitElement {
 
   render() {
     return html`
-      <web-series-form></web-series-form>;
+      <web-series-form></web-series-form>
       <web-series-overview
         title=${this.title}
         director=${this.director}
@@ -182,8 +182,6 @@ class webSeriesForm extends LitElement {
   }
 }
 
-customElements.define('web-series-form', webSeriesForm);
-
 class webSeriesOverview extends WebSeriesCard {
   constructor() {
     super();
@@ -247,6 +245,6 @@ class webSeriesOverview extends WebSeriesCard {
     `;
   }
 }
-
+customElements.define('web-series-form', webSeriesForm);
 customElements.define('web-series-overview', webSeriesOverview);
 window.customElements.define('web-series', WebSeries);

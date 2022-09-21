@@ -27,6 +27,7 @@ export class WebSeriesCard extends LitElement {
         border: 1px solid #f1f1f1;
         perspective: 500px;
         border: 0.1rem solid #1b4f72;
+        overflow: hidden;
       }
       .flip-card-inner {
         position: relative;
