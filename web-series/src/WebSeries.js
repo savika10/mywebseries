@@ -6,56 +6,31 @@ import { WebSeriesCard } from './web-series-card.js';
 customElements.define('web-series-card', WebSeriesCard);
 
 export class WebSeries extends LitElement {
-  firstUpdated() {
-    const obj = {
-      title: 'hi',
-      stars: 'bi',
-      director: 'mama',
-      streamingPlatform: 'hehe',
-    };
-    const shadow = this.shadowRoot;
-    const webseriesOverview = shadow.querySelector('web-series-overview');
-    webseriesOverview.data = obj;
-    /* this.addEventListener('myEvent', e => {
-      const value = e.detail;
-      const shadow = this.shadowRoot;
-      const webseriesOverview = shadow.querySelector('web-series-overview');
-      webseriesOverview.data = value;
-    }); */
+  // passing values to card
+  constructor() {
+    super();
+    this.title = 'my';
   }
 
-  static get properties() {
+  // adding eventlistener to form element
+  connectedCallback() {
+    super.connectedCallback();
+    const child = document.querySelector('form');
+    child.addEventListener('form-submit', e => {
+      this.title = e.detail.title;
+      this.stars = e.detail.stars;
+      this.director = e.detail.director;
+      this.streamingPlatform = e.detail.streamingPlatform;
+    });
+  }
+  /*  static get properties() {
     return {
       title: { type: String },
       stars: { type: String },
       director: { type: String },
       streamingPlatform: { type: String },
     };
-  }
-
-  /* constructor() {
-    super();
-    this.title = 'hello';
-    this.director = 'my';
-    this.stars = 'kep';
-    this.streamingPlatform = 'viu';
-    this.addEventListener('form-submit', this.formsubmit);
-this.addEventListener('form-submit', this.formsubmit);
-    this.attachShadow({ mode: 'open' });
   } */
-
-  // constructor() {
-  //   super();
-  // }
-  // const webseriesform = document.querySelector('web-series-form');
-  // const clone = document.importNode(webseriesform.Content, true);
-  // this.attachShadow({ mode: 'open' });
-  // this.shadowRoot.appendChild(webseriesform);
-
-  // const webseriesoverview = document.querySelector('web-series-overview');
-  // const clone2 = document.importNode(webseriesoverview.Content, true);
-  // this.attachShadow({ mode: 'open' });
-  // this.shadowRoot.appendChild(webseriesoverview);
 
   static get styles() {
     return css`
@@ -79,83 +54,38 @@ this.addEventListener('form-submit', this.formsubmit);
   render() {
     return html`
       <web-series-form></web-series-form>;
-      <web-series-overview></web-series-overview>
+      <web-series-overview
+        title=${this.title}
+        director=${this.director}
+        stars=${this.stars}
+        streamingPlatform=${this.streamingPlatform}
+      ></web-series-overview>
     `;
   }
 }
-// customElements.define('web-series', WebSeries);
 
 class webSeriesForm extends LitElement {
-  submit() {
-    const myEvent = new CustomEvent('form-submit', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        title: this.shadowRoot.getElementById('title').value,
-        director: this.shadowRoot.getElementById('director').value,
-        stars: this.shadowRoot.getElementById('stars').value,
-        streamingPlatform:
-          this.shadowRoot.getElementById('streamingPlatform').value,
-      },
-    });
-    this.dispatchEvent(myEvent);
-    /* this.count = 0;
+  // dispatching event
+  firstUpdated() {
     const shadow = this.shadowRoot;
     const form = shadow.querySelector('form');
-    form.onclick = e => {
-      this.count += 1;
-       const obj = {
-        title: this.shadowRoot.getElementById('title').value,
-        director: this.shadowRoot.getElementById('director').value,
-        stars: this.shadowRoot.getElementById('stars').value,
-        streamingPlatform:
-          this.shadowRoot.getElementById('streamingPlatform').value,
-      }; 
-
-      this.dispatchEvent(
-        new CustomEvent('clicked', {
-          bubbles: true,
-          composed: true,
-          detail: this.count,
-        })
-      );
-    }; */
-  }
-
-  // let count = 0;
-  // const form1 = document.querySelector('form');
-  /* constructor(title, director, stars, streamingPlatform) {
-    super();
-    this.title = title;
-    this.director = director;
-    this.stars = stars;
-    this.streamingPlatform = streamingPlatform;
-  } */
-  /* constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.formsubmit = this.formsubmit.bind(this);
-    this.title = '';
-    this.director = '';
-    this.stars = '';
-    this.streamingPlatform = '';
-    this.dispatchEvent(
-      new CustomEvent('form-submit', {
+    form.submit = e => {
+      e.preventDefault();
+      const myEvent = new CustomEvent('form-submit', {
         bubbles: true,
         composed: true,
-      })
-    );
-  }
-*/
-  /* static get properties() {
-    return {
-      title: { type: String },
-      stars: { type: String },
-      director: { type: String },
-      streamingPlatform: { type: String },
+        detail: {
+          title: this.shadowRoot.getElementById('title').value,
+          director: this.shadowRoot.getElementById('director').value,
+          stars: this.shadowRoot.getElementById('stars').value,
+          streamingPlatform:
+            this.shadowRoot.getElementById('streamingPlatform').value,
+        },
+      });
+      this.dispatchEvent(myEvent);
     };
   }
-*/
+
   static get styles() {
     return css`
       :host {
@@ -203,12 +133,7 @@ class webSeriesForm extends LitElement {
 
   render() {
     return html`
-      <form
-        @submit=${this.submit}
-        name="Myform"
-        id="Web-series-form"
-        class="container1"
-      >
+      <form name="Myform" id="Web-series-form" class="container1">
         <h4>
           TITLE:
           <input
@@ -255,60 +180,23 @@ class webSeriesForm extends LitElement {
       </form>
     `;
   }
-
-  /*  formsubmit(e) {
-    // let count = 1;
-    // this.done = true;
-    e.preventDefault();
-
-    const title = this.shadowRoot.getElementById('title').value;
-    const director = this.shadowRoot.getElementById('director').value;
-    const stars = this.shadowRoot.getElementById('stars').value;
-    const streamingPlatform =
-      this.shadowRoot.getElementById('streamingPlatform').value;
-    this.title = [...this.title, { title }];
-    this.title = [...this.title, { director }];
-    this.title = [...this.title, { stars }];
-    this.title = [...this.title, { streamingPlatform }];
-  } */
-  // const values = new WebSeries(title, director, stars, streamingPlatform);
-
-  // count += 1;
-  // this.console.log((this.title = 'title'));
-  // this.console.log(title, director, stars, streamingPlatform);
-  // console.log('fd');
-  // const ui = new UI();
-  // if (count <= 6) {
-  // ui.addWebSeriesToList(value);
-  // }
-  // clear fields
-  // ui.clearFields();
 }
 
 customElements.define('web-series-form', webSeriesForm);
 
 class webSeriesOverview extends WebSeriesCard {
-  /* connectedCallback() {
-    super.connectedCallback();
-    const webseriescard = this.shadowRoot.querySelector(WebSeriesCard);
-    // const clone3 = document.importNode(webseriescard.Content, true);
-    // this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(webseriescard);
-  } */
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
   }
 
-  // connectedCallback() {
-  // super.connectedCallback();
-  //    this.title = this.getAttribute('title');
-  //  this.director = this.getAttribute('director');
-  // }
-  static get properties() {
-    return {
-      data: { type: Object },
-    };
+  // adding values through attribute
+  connectedCallback() {
+    super.connectedCallback();
+    this.title = this.getAttribute('title');
+    this.director = this.getAttribute('director');
+    this.stars = this.getAttribute('stars');
+    this.streamingPlatform = this.getAttribute('streamingPlatform');
   }
 
   static get styles() {
@@ -341,24 +229,15 @@ class webSeriesOverview extends WebSeriesCard {
     `;
   }
 
-  /*  div {
-        background-color: rgb(255, 255, 255);
-        margin: 1rem 1rem;
-        padding: 1rem 1rem;
-        border-radius: 0.5rem;
-        border: 0.1rem solid #1b4f72;
-      }
-    `;
-  } 
-*/
+  // connecting values
   render() {
     return html`
       <web-series-card
         id="card"
-        title=${this.data.title}
-        director=${this.data.director}
-        stars=${this.data.stars}
-        streamingPlatform=${this.data.streamingPlatform}
+        title=${this.title}
+        director=${this.director}
+        stars=${this.stars}
+        streamingPlatform=${this.streamingPlatform}
       ></web-series-card>
       <web-series-card></web-series-card>
       <web-series-card></web-series-card>
