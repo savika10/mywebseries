@@ -30,34 +30,9 @@
         font-weight: lighter;
         text-shadow: 2px 2px 4px #1b4f72;
       }
-      @media (min-width: 800px) {
-        web-series-overview {
-          border-radius: 20px;
-          background-color: #f2f2f2;
-          padding: 2rem;
-          flex: 50%;
-          flex-direction: row;
-          border: 0.2rem solid #d6eaf8;
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          grid-template-rows: repeat(3, minmax(0, 1fr));
-        }
-      }
-      @media (max-width: 800px) {
-        web-series-overview {
-          border-radius: 20px;
-          background-color: #f2f2f2;
-          padding: 2rem;
-          border: 0.2rem solid #d6eaf8;
-          display: grid;
-          grid-template-columns: 1fr;
-          grid-template-columns: repeat(0, minmax(0, 1fr));
-          grid-template-rows: repeat(6, minmax(0, 1fr));
-        }
-      }
 
       @media (max-width: 800px) {
-        div.container {
+        .container {
           display: grid;
           grid-template-columns: 1fr;
           box-sizing: border-box;
@@ -78,10 +53,8 @@
         <h1>Web Series</h1>
       </nav>
     </header>
-    <web-series>
-      <div class="container"></div>
-    </web-series>
+    <web-series class="container"> </web-series>
 
-    <script type="module" src="./src/WebSeries.js"></script>
+    <script type="module" src="./src/web-series.js"></script>
   </body>
 </html>
