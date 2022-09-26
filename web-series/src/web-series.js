@@ -9,24 +9,30 @@ window.customElements.define('web-series-form', webSeriesForm);
 window.customElements.define('web-series-overview', webSeriesOverview);
 
 export class WebSeries extends LitElement {
+  static get properties() {
+    return {
+      card: { type: Array },
+    };
+  }
+
   // passing values to card
   constructor() {
     super();
-    this.title = 'my';
+    this.card = '';
   }
 
   // adding eventlistener to form element
-  connectedCallback() {
-    super.connectedCallback();
-    const child = document.querySelector('form');
-    child.addEventListener('form-submit', e => {
-      e.preventDefault();
-      this.title = e.detail.title;
-      this.stars = e.detail.stars;
-      this.director = e.detail.director;
-      this.streamingPlatform = e.detail.streamingPlatform;
-    });
-  }
+  // connectedCallback() {
+  //   super.connectedCallback();
+  //   const child = document.querySelector('form');
+  //   child.addEventListener('form-submit', e => {
+  //     e.preventDefault();
+  //     this.title = e.detail.title;
+  //     this.stars = e.detail.stars;
+  //     this.director = e.detail.director;
+  //     this.streamingPlatform = e.detail.streamingPlatform;
+  //   });
+  // }
 
   static get styles() {
     return css`
@@ -47,15 +53,15 @@ export class WebSeries extends LitElement {
     `;
   }
 
+  createCard(e) {
+    // console.log(e.detail);
+    this.card = [...this.card, e.detail];
+  }
+
   render() {
     return html`
-      <web-series-form></web-series-form>
-      <web-series-overview
-        title=${this.title}
-        director=${this.director}
-        stars=${this.stars}
-        streamingPlatform=${this.streamingPlatform}
-      ></web-series-overview>
+      <web-series-form @addingcards=${this.createCard}></web-series-form>
+      <web-series-overview .card=${this.card}></web-series-overview>
     `;
   }
 }

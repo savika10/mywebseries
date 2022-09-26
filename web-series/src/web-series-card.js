@@ -3,10 +3,10 @@ import { html, css, LitElement } from 'lit';
 export class WebSeriesCard extends LitElement {
   constructor() {
     super();
-    this.title = 'Title';
-    this.stars = 'stars';
-    this.director = 'dir';
-    this.streamingPlatform = 'streaming';
+    this.title = '';
+    this.stars = '';
+    this.director = '';
+    this.streamingPlatform = '';
   }
 
   static get properties() {
@@ -141,3 +141,5 @@ export class WebSeriesCard extends LitElement {
     `;
   }
 }
+
+customElements.define('web-series-card', WebSeriesCard);

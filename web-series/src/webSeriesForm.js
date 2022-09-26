@@ -2,27 +2,6 @@ import { LitElement, html, css } from 'lit';
 
 export class webSeriesForm extends LitElement {
   // dispatching event
-  firstUpdated() {
-    const shadow = this.shadowRoot;
-    const form = shadow.querySelector('form');
-    console.log(form);
-    form.submit = e => {
-      e.preventDefault();
-      const myEvent = new CustomEvent('form-submit', {
-        bubbles: true,
-        composed: true,
-        detail: {
-          title: this.shadowRoot.getElementById('title').value,
-          director: this.shadowRoot.getElementById('director').value,
-          stars: this.shadowRoot.getElementById('stars').value,
-          streamingPlatform:
-            this.shadowRoot.getElementById('streamingPlatform').value,
-        },
-      });
-      this.dispatchEvent(myEvent);
-    };
-  }
-
   static get properties() {
     return {
       title: { type: String },
@@ -31,6 +10,27 @@ export class webSeriesForm extends LitElement {
       streamingPlatform: { type: String },
     };
   }
+
+  // firstUpdated() {
+  //   const shadow = this.shadowRoot;
+  //   const form = shadow.querySelector('form');
+  //   console.log(form);
+  //   form.submit = e => {
+  //     e.preventDefault();
+  //     const myEvent = new CustomEvent('form-submit', {
+  //       bubbles: true,
+  //       composed: true,
+  //       detail: {
+  //         title: this.shadowRoot.getElementById('title').value,
+  //         director: this.shadowRoot.getElementById('director').value,
+  //         stars: this.shadowRoot.getElementById('stars').value,
+  //         streamingPlatform:
+  //           this.shadowRoot.getElementById('streamingPlatform').value,
+  //       },
+  //     });
+  //     this.dispatchEvent(myEvent);
+  //   };
+  // }
 
   static get styles() {
     return css`
@@ -77,6 +77,25 @@ export class webSeriesForm extends LitElement {
     `;
   }
 
+  addCard(e) {
+    e.preventDefault();
+    const title = this.shadowRoot.getElementById('title').value;
+    const director = this.shadowRoot.getElementById('director').value;
+    const stars = this.shadowRoot.getElementById('stars').value;
+    const streamingPlatform =
+      this.shadowRoot.getElementById('streamingPlatform').value;
+    const cardcontainer = { title, director, stars, streamingPlatform };
+
+    this.dispatchEvent(
+      new CustomEvent('addingcards', { detail: cardcontainer })
+    );
+
+    this.shadowRoot.getElementById('title').value = null;
+    this.shadowRoot.getElementById('director').value = null;
+    this.shadowRoot.getElementById('stars').value = null;
+    this.shadowRoot.getElementById('streamingPlatform').value = null;
+  }
+
   render() {
     return html`
       <form name="Myform" id="Web-series-form" class="container1">
@@ -121,7 +140,14 @@ export class webSeriesForm extends LitElement {
           </select>
         </h4>
         <h4 class="submit">
-          <button type="submit" id="name" value="ADD">ADD</button>
+          <button
+            type="submit"
+            id="name"
+            value="ADD"
+            @click=${e => this.addCard(e)}
+          >
+            ADD
+          </button>
         </h4>
       </form>
     `;

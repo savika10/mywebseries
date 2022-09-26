@@ -1,24 +1,28 @@
 // eslint-disable-next-line max-classes-per-file
-import { html, css } from 'lit';
+import { html, css, LitElement } from 'lit';
 
-import { WebSeriesCard } from './web-series-card.js';
+import './web-series-card.js';
 
-customElements.define('web-series-card', WebSeriesCard);
+export class webSeriesOverview extends LitElement {
+  static get properties() {
+    return {
+      card: { type: Array },
+    };
+  }
 
-export class webSeriesOverview extends WebSeriesCard {
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
+    this.card = [];
   }
 
   // adding values through attribute
-  connectedCallback() {
-    super.connectedCallback();
-    this.title = this.getAttribute('title');
-    this.director = this.getAttribute('director');
-    this.stars = this.getAttribute('stars');
-    this.streamingPlatform = this.getAttribute('streamingPlatform');
-  }
+  // connectedCallback() {
+  //   super.connectedCallback();
+  //   this.title = this.getAttribute('title');
+  //   this.director = this.getAttribute('director');
+  //   this.stars = this.getAttribute('stars');
+  //   this.streamingPlatform = this.getAttribute('streamingPlatform');
+  // }
 
   static get styles() {
     return css`
@@ -55,18 +59,16 @@ export class webSeriesOverview extends WebSeriesCard {
   // connecting values
   render() {
     return html`
-      <web-series-card
-        id="card"
-        title=${this.title}
-        director=${this.director}
-        stars=${this.stars}
-        streamingPlatform=${this.streamingPlatform}
-      ></web-series-card>
-      <web-series-card></web-series-card>
-      <web-series-card></web-series-card>
-      <web-series-card></web-series-card>
-      <web-series-card></web-series-card>
-      <web-series-card></web-series-card>
+      ${this.card.map(
+        item =>
+          html`<web-series-card
+            id="card"
+            title=${item.title}
+            director=${item.director}
+            stars=${item.stars}
+            streamingPlatform=${item.streamingPlatform}
+          ></web-series-card>`
+      )}
     `;
   }
 }
